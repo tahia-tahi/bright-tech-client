@@ -2,8 +2,8 @@ import { createBrowserRouter } from "react-router";
 import RootLayout from "../layouts/RootLayout";
 import Home from "../pages/Home";
 import AuthLayout from "../layouts/AuthLayout";
-import SignUp from "../pages/SignUp";
-import LogIn from "../pages/LogIn";
+import SignUpPage from "../pages/SignUpPage";
+import LogInPage from "../pages/LogInPage";
 import AllPosts from "../pages/AllPosts";
 import User from "../layouts/User";
 import CreatePost from "../pages/UserDashboard/CreatePost";
@@ -16,6 +16,7 @@ import AdminMyPosts from "../pages/AdminDashboard/AdminMyPosts";
 import ManageUsers from "../pages/AdminDashboard/ManageUsers";
 import AdminCreatePost from "../pages/AdminDashboard/AdminCreatePost";
 import ProtectedRoute from "./ProtectedRoute";
+
 
 
 
@@ -33,12 +34,12 @@ export const router = createBrowserRouter([
                 Component: AuthLayout,
                 children: [
                     {
-                        path: '/auth/signup',
-                        Component: SignUp
+                        path: '/sign-up',
+                        Component: SignUpPage
                     },
                     {
-                        path: '/auth/login',
-                        Component: LogIn
+                        path: '/log-in',
+                        Component: LogInPage
                     }
                 ]
             },

@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import Logo from "../shared/logo";
-import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
+import { UserButton, useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router";
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const { user } = useUser();
-    const { openSignIn } = useClerk();
 
     const handleNav = (path) => {
         navigate(path);
@@ -38,7 +37,7 @@ const Navbar = () => {
                         <UserButton />
                     ) : (
                         <button
-                            onClick={openSignIn}
+                            onClick={navigate('/sign-up')}
                             className="flex items-center gap-2 rounded-full bg-primary text-white px-4 py-2 text-sm hover:opacity-90 transition cursor-pointer"
                         >
                             Get started
@@ -80,7 +79,7 @@ const Navbar = () => {
                             <UserButton />
                         ) : (
                             <button
-                                onClick={openSignIn}
+                                onClick={navigate('/sign-up')}
                                 className="w-full flex items-center justify-center gap-2 rounded-full bg-primary text-white py-3 text-sm cursor-pointer"
                             >
                                 Get started
