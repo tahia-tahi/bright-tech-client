@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CreatePost = () => {
+const MyProfile = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const CreatePost = () => {
     );
 };
 
-export default CreatePost;
+export default MyProfile;

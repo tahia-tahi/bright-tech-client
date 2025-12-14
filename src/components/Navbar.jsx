@@ -1,65 +1,94 @@
 import React, { useState } from "react";
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight } from "lucide-react";
 import Logo from "../shared/logo";
 import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
+import { useNavigate } from "react-router";
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
     const { user } = useUser();
     const { openSignIn } = useClerk();
 
+    const handleNav = (path) => {
+        navigate(path);
+        setOpen(false); // close mobile menu
+    };
+
     return (
-        <nav className="h-[70px] relative w-full px-6 md:px-16 lg:px-24 xl:px-32 flex items-center justify-between z-20 bg-white text-gray-700 shadow-[0px_4px_25px_0px_#0000000D] transition-all">
+        <nav className="sticky top-0 z-50 w-full bg-white shadow-[0px_4px_25px_0px_#0000000D]">
+            <div className="h-[70px] px-4 md:px-10 lg:px-20 flex items-center justify-between">
 
-            {/* Logo */}
-            <Logo />
-            {/* Desktop Menu */}
-            <ul className="md:flex hidden items-center gap-10">
-                <li><a className="hover:text-gray-500/80 transition" href="#">Home</a></li>
-                <li><a className="hover:text-gray-500/80 transition" href="#">All Posts</a></li>
-                <li><a className="hover:text-gray-500/80 transition" href="#">About</a></li>
-                <li><a className="hover:text-gray-500/80 transition" href="#">Pricing</a></li>
-            </ul>
+                {/* Logo */}
+                <div onClick={() => handleNav("/")} className="cursor-pointer">
+                    <Logo />
+                </div>
 
-            {/* Desktop Button */}
-            {
-                user ? <UserButton /> : (
-                    <button onClick={openSignIn} className='flex items-center gap-2 rounded-full text-sm cursor-pointer bg-primary text-white px-2.5'>
-                        Get started
-                        <ArrowRight className='w-4 h-4' />
-                    </button>)
-            }
+                {/* Desktop Menu */}
+                <ul className="hidden md:flex items-center gap-8 text-sm font-medium">
+                    <li onClick={() => handleNav("/")} className="text-primary cursor-pointer">Home</li>
+                    <li onClick={() => handleNav("/allposts")} className="text-primary cursor-pointer">All Posts</li>
+                    <li className="text-primary cursor-pointer">About</li>
+                    <li className="text-primary cursor-pointer">Pricing</li>
+                </ul>
 
-            {/* Mobile Menu Button */}
-            <button
-                aria-label="menu-btn"
-                type="button"
-                onClick={() => setOpen(!open)}
-                className="menu-btn inline-block md:hidden active:scale-90 transition"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#000">
-                    <path d="M3 7h24M3 14h24M3 21h24" stroke="currentColor" strokeWidth="2" />
-                </svg>
-            </button>
+                {/* Desktop Auth */}
+                <div className="hidden md:flex items-center gap-4">
+                    {user ? (
+                        <UserButton />
+                    ) : (
+                        <button
+                            onClick={openSignIn}
+                            className="flex items-center gap-2 rounded-full bg-primary text-white px-4 py-2 text-sm hover:opacity-90 transition cursor-pointer"
+                        >
+                            Get started
+                            <ArrowRight className="w-4 h-4" />
+                        </button>
+                    )}
+                </div>
+
+                {/* Mobile Menu Button */}
+                <button
+                    onClick={() => setOpen(!open)}
+                    className="md:hidden p-2 rounded-lg active:scale-95 transition"
+                    aria-label="menu"
+                >
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                        <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="2" />
+                    </svg>
+                </button>
+            </div>
 
             {/* Mobile Menu */}
             <div
-                className={`mobile-menu absolute top-[70px] left-0 w-full bg-white p-6 md:hidden transition-all duration-300 ${open ? "block" : "hidden"
+                className={`md:hidden overflow-hidden transition-all duration-300 ${open ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
                     }`}
             >
-                <ul className="flex flex-col space-y-4 text-lg">
-                    <li><a href="#" className="text-sm">Home</a></li>
-                    <li><a href="#" className="text-sm">Services</a></li>
-                    <li><a href="#" className="text-sm">Portfolio</a></li>
-                    <li><a href="#" className="text-sm">Pricing</a></li>
-                </ul>
+                <div className="px-6 pb-6 pt-4 flex flex-col gap-4 bg-white border-t">
 
-                <button
-                    type="button"
-                    className="bg-white text-gray-600 border border-gray-300 mt-6 text-sm hover:bg-gray-50 active:scale-95 transition-all w-40 h-11 rounded-full"
-                >
-                    Get started
-                </button>
+                    <button onClick={() => handleNav("/")} className="text-left text-sm font-medium">
+                        Home
+                    </button>
+                    <button onClick={() => handleNav("/allposts")} className="text-left text-sm font-medium">
+                        All Posts
+                    </button>
+                    <button className="text-left text-sm font-medium">About</button>
+                    <button className="text-left text-sm font-medium">Pricing</button>
+
+                    <div className="pt-4">
+                        {user ? (
+                            <UserButton />
+                        ) : (
+                            <button
+                                onClick={openSignIn}
+                                className="w-full flex items-center justify-center gap-2 rounded-full bg-primary text-white py-3 text-sm cursor-pointer"
+                            >
+                                Get started
+                                <ArrowRight className="w-4 h-4" />
+                            </button>
+                        )}
+                    </div>
+                </div>
             </div>
         </nav>
     );
