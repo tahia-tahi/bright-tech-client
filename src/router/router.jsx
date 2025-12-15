@@ -34,11 +34,11 @@ export const router = createBrowserRouter([
                 Component: AuthLayout,
                 children: [
                     {
-                        path: '/sign-up',
+                        path: 'sign-up',
                         Component: SignUpPage
                     },
                     {
-                        path: '/log-in',
+                        path: 'log-in',
                         Component: LogInPage
                     }
                 ]
@@ -52,19 +52,19 @@ export const router = createBrowserRouter([
                 element:<User></User>,
                 children: [
                     {
-                        path: '/create-post',
+                        path: 'create-post',
                         Component: CreatePost
                     },
                     {
-                        path: '/update-post/:id',
+                        path: 'update-post/:id',
                         Component: UpdatePost
                     },
                     {
-                        path: '/my-profile',
+                        path: 'my-profile',
                         Component: MyProfile
                     },
                     {
-                        path: '/my-posts',
+                        path: 'my-posts',
                         Component: MyPosts
                     }
                 ]
@@ -74,19 +74,19 @@ export const router = createBrowserRouter([
                 Component: Admin,
                 children: [
                     {
-                        path: '/my-profile',
+                        path: 'my-profile',
                         Component: AdminProfile
                     },
                     {
-                        path: '/my-posts',
+                        path: 'my-posts',
                         Component: AdminMyPosts
                     },
                     {
-                        path: '/manage-users',
+                        path: 'manage-users',
                         Component: ManageUsers
                     },
                     {
-                        path: '/create-posts',
+                        path: 'create-posts',
                         Component: AdminCreatePost
                     }
                 ]

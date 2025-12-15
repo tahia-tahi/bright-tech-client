@@ -26,7 +26,7 @@ const Navbar = () => {
                 {/* Desktop Menu */}
                 <ul className="hidden md:flex items-center gap-8 text-sm font-medium">
                     <li onClick={() => handleNav("/")} className="text-primary cursor-pointer">Home</li>
-                    <li onClick={() => handleNav("/allposts")} className="text-primary cursor-pointer">All Posts</li>
+                    <li onClick={() => handleNav("/all-posts")} className="text-primary cursor-pointer">All Posts</li>
                     <li className="text-primary cursor-pointer">About</li>
                     <li className="text-primary cursor-pointer">Pricing</li>
                 </ul>
@@ -37,7 +37,7 @@ const Navbar = () => {
                         <UserButton />
                     ) : (
                         <button
-                            onClick={navigate('/sign-up')}
+                            onClick={() => navigate('/auth/sign-up')}
                             className="flex items-center gap-2 rounded-full bg-primary text-white px-4 py-2 text-sm hover:opacity-90 transition cursor-pointer"
                         >
                             Get started
@@ -68,7 +68,7 @@ const Navbar = () => {
                     <button onClick={() => handleNav("/")} className="text-left text-sm font-medium">
                         Home
                     </button>
-                    <button onClick={() => handleNav("/allposts")} className="text-left text-sm font-medium">
+                    <button onClick={() => handleNav("/all-posts")} className="text-left text-sm font-medium">
                         All Posts
                     </button>
                     <button className="text-left text-sm font-medium">About</button>
@@ -79,7 +79,7 @@ const Navbar = () => {
                             <UserButton />
                         ) : (
                             <button
-                                onClick={navigate('/sign-up')}
+                                onClick={() => navigate('/auth/sign-up')}
                                 className="w-full flex items-center justify-center gap-2 rounded-full bg-primary text-white py-3 text-sm cursor-pointer"
                             >
                                 Get started

@@ -1,76 +1,75 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThumbsUp, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router';
 
-const dummyPosts = [
-  {
-    id: 1,
-    title: 'How React Changed Frontend Development',
-    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97',
-    likes: 12,
-    comments: 4,
-    liked: false,
-  },
-  {
-    id: 2,
-    title: 'Understanding MongoDB for Beginners',
-    image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c',
-    likes: 25,
-    comments: 10,
-    liked: false,
-  },
-  {
-    id: 3,
-    title: 'Why Full-Stack Developers Are in Demand',
-    image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d',
-    likes: 7,
-    comments: 2,
-    liked: false,
-  },
-];
-
 const AllPosts = () => {
-  const [posts, setPosts] = useState(dummyPosts);
+  const [posts, setPosts] = useState([]);
 
-  const handleLikeToggle = (id) => {
-    setPosts(posts.map(post =>
-      post.id === id
-        ? {
-            ...post,
-            liked: !post.liked,
-            likes: post.liked ? post.likes - 1 : post.likes + 1,
-          }
-        : post
-    ));
+  // Fetch posts from API
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/posts');
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        console.error('Failed to fetch posts:', error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  const handleLikeToggle = async (postId) => {
+    try {
+      // Optional: call your like API here
+      setPosts(posts.map(post =>
+        post._id === postId
+          ? {
+              ...post,
+              liked: !post.liked,
+              likeCount: post.liked ? post.likeCount - 1 : post.likeCount + 1,
+            }
+          : post
+      ));
+    } catch (error) {
+      console.error('Failed to update like:', error);
+    }
   };
 
   return (
     <div className="px-6 md:px-16 lg:px-24 xl:px-32 py-10">
-      <h1 className="text-2xl font-bold mb-8">All Posts</h1>
+      <h1 className="text-3xl font-bold text-center mb-10">All Posts</h1>
 
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {posts.length === 0 && (
+          <p className="text-center col-span-full text-gray-500">
+            No posts available.
+          </p>
+        )}
+
         {posts.map(post => (
           <div
-            key={post.id}
-            className="bg-white rounded-xl shadow-md overflow-hidden"
+            key={post._id}
+            className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
           >
-            {/* Image */}
-            <img
-              src={post.image}
-              alt={post.title}
-              className="h-48 w-full object-cover"
-            />
+            {/* Image placeholder */}
+            <div className="h-48 w-full bg-gray-200 flex items-center justify-center text-gray-400 text-lg font-medium">
+              {post.title.slice(0, 2).toUpperCase()}
+            </div>
 
             {/* Content */}
             <div className="p-5">
-              <h2 className="text-lg font-semibold">{post.title}</h2>
+              <h2 className="text-xl font-semibold text-center">{post.title}</h2>
+              <p className="mt-2 text-gray-600 text-sm text-center">
+                {post.content.length > 100 ? post.content.slice(0, 100) + '...' : post.content}
+              </p>
 
               {/* Actions */}
-              <div className="flex items-center gap-6 mt-4 text-gray-600">
-                
+              <div className="flex items-center justify-center gap-6 mt-4 text-gray-600">
                 {/* Like Button */}
                 <button
-                  onClick={() => handleLikeToggle(post.id)}
+                  onClick={() => handleLikeToggle(post._id)}
                   className={`flex items-center gap-1 text-sm font-medium transition
                     ${post.liked ? 'text-blue-600' : 'hover:text-blue-600'}
                   `}
@@ -79,23 +78,25 @@ const AllPosts = () => {
                     className="w-5 h-5"
                     fill={post.liked ? '#2563eb' : 'none'}
                   />
-                  {post.liked ? 'Liked' : 'Like'} · {post.likes}
+                  {post.liked ? 'Liked' : 'Like'} · {post.likeCount || 0}
                 </button>
 
                 {/* Comment Count */}
                 <div className="flex items-center gap-1 text-sm">
                   <MessageCircle className="w-5 h-5" />
-                  {post.comments}
+                  {post.commentCount || 0}
                 </div>
               </div>
 
               {/* Read more */}
-              <Link
-                to={`/posts/${post.id}`}
-                className="inline-block mt-4 text-primary font-medium text-sm"
-              >
-                Read more →
-              </Link>
+              <div className="text-center mt-4">
+                <Link
+                  to={`/posts/${post._id}`}
+                  className="text-blue-600 font-medium text-sm hover:underline"
+                >
+                  Read more →
+                </Link>
+              </div>
             </div>
           </div>
         ))}
