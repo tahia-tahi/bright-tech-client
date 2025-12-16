@@ -26,10 +26,10 @@ const AllPosts = () => {
       setPosts(posts.map(post =>
         post._id === postId
           ? {
-              ...post,
-              liked: !post.liked,
-              likeCount: post.liked ? post.likeCount - 1 : post.likeCount + 1,
-            }
+            ...post,
+            liked: !post.liked,
+            likeCount: post.liked ? post.likeCount - 1 : post.likeCount + 1,
+          }
           : post
       ));
     } catch (error) {
@@ -53,10 +53,19 @@ const AllPosts = () => {
             key={post._id}
             className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
           >
-            {/* Image placeholder */}
-            <div className="h-48 w-full bg-gray-200 flex items-center justify-center text-gray-400 text-lg font-medium">
-              {post.title.slice(0, 2).toUpperCase()}
-            </div>
+            {/* Post Image */}
+            {post.image ? (
+              <img
+                src={post.image}
+                alt={post.title}
+                className="h-48 w-full object-cover"
+              />
+            ) : (
+              <div className="h-48 w-full bg-gray-200 flex items-center justify-center text-gray-400 text-lg font-medium">
+                {post.title.slice(0, 2).toUpperCase()}
+              </div>
+            )}
+
 
             {/* Content */}
             <div className="p-5">

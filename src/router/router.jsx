@@ -16,6 +16,7 @@ import AdminMyPosts from "../pages/AdminDashboard/AdminMyPosts";
 import ManageUsers from "../pages/AdminDashboard/ManageUsers";
 import AdminCreatePost from "../pages/AdminDashboard/AdminCreatePost";
 import ProtectedRoute from "./ProtectedRoute";
+import PostDetails from "../pages/PostDetails";
 
 
 
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
             {
                 path: '/all-posts',
                 Component: AllPosts
+            },
+            {
+                path:'/posts/:id',
+                Component:PostDetails
             },
             {
                 path: '/user-dashboard',
