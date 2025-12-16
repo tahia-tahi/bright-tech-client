@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { ThumbsUp, MessageCircle } from "lucide-react";
+import { useAuth } from "@clerk/clerk-react";
+
 
 const PostDetails = () => {
   const { id } = useParams(); // post id from route
@@ -8,21 +10,31 @@ const PostDetails = () => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [liked, setLiked] = useState(false);
+  const { getToken, isSignedIn } = useAuth();
+
 
   // Fetch post details
   useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const res = await fetch(`http://localhost:3000/api/posts/${id}`);
-        const data = await res.json();
-        if (data.success) {
-          setPost(data.post);
-          setLiked(data.post.liked || false); // optional liked info
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
+const fetchPost = async () => {
+  try {
+    const token = await getToken({ template: "default" });
+
+    const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      setPost(data.post);
+      setLiked(data.post.liked || false);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 
     const fetchComments = async () => {
       try {
@@ -40,23 +52,33 @@ const PostDetails = () => {
 
   // Handle like/unlike
   const handleLike = async () => {
-    try {
-      const res = await fetch(`http://localhost:3000/api/posts/like/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // token from login
-        },
-      });
-      const data = await res.json();
-      if (data.success) setLiked(data.liked);
-    } catch (err) {
-      console.error(err);
+    if (!isSignedIn) return alert("Login required");
+
+    const token = await getToken({ template: "default" });
+
+
+    const res = await fetch(`http://localhost:3000/api/posts/like/${id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      setLiked(data.liked);
+      setPost(prev => ({
+        ...prev,
+        likeCount: data.likeCount
+      }));
+
     }
   };
 
   // Handle comment submit
   const handleCommentSubmit = async (e) => {
+    const token = await getToken({ template: "default" });
+
     e.preventDefault();
     if (!newComment.trim()) return;
 
@@ -65,13 +87,19 @@ const PostDetails = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ text: newComment }),
       });
       const data = await res.json();
       if (data.success) {
         setComments([{ _id: data.commentId, text: newComment }, ...comments]);
+
+        setPost(prev => ({
+          ...prev,
+          commentCount: prev.commentCount + 1
+        }));
+
         setNewComment("");
       }
     } catch (err) {
@@ -91,9 +119,8 @@ const PostDetails = () => {
       {/* Like button */}
       <button
         onClick={handleLike}
-        className={`flex items-center gap-2 px-4 py-2 rounded ${
-          liked ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"
-        }`}
+        className={`flex items-center gap-2 px-4 py-2 rounded ${liked ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"
+          }`}
       >
         <ThumbsUp className="w-5 h-5" />
         {liked ? "Liked" : "Like"} · {post.likeCount || 0}
