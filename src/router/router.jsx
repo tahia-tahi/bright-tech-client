@@ -17,6 +17,8 @@ import ManageUsers from "../pages/AdminDashboard/ManageUsers";
 import AdminCreatePost from "../pages/AdminDashboard/AdminCreatePost";
 import ProtectedRoute from "./ProtectedRoute";
 import PostDetails from "../pages/PostDetails";
+import SSOCallback from "../pages/SSOCallBack"
+import VerifyEmail from "../pages/VerifyEmail";
 
 
 
@@ -44,17 +46,29 @@ export const router = createBrowserRouter([
                     }
                 ]
             },
+
+            {
+                path: "/sso-callback",
+                element: <SSOCallback />
+            },
+
+            {
+                path: "/verify-email",
+                element: <VerifyEmail />
+
+            },
+
             {
                 path: '/all-posts',
                 Component: AllPosts
             },
             {
-                path:'/posts/:id',
-                Component:PostDetails
+                path: '/posts/:id',
+                Component: PostDetails
             },
             {
                 path: '/user-dashboard',
-                element:<User></User>,
+                element: <User></User>,
                 children: [
                     {
                         path: 'create-post',
@@ -79,11 +93,11 @@ export const router = createBrowserRouter([
                 Component: Admin,
                 children: [
                     {
-                        path: 'my-profile',
+                        path: 'admin-profile',
                         Component: AdminProfile
                     },
                     {
-                        path: 'my-posts',
+                        path: 'admin-posts',
                         Component: AdminMyPosts
                     },
                     {
@@ -91,11 +105,11 @@ export const router = createBrowserRouter([
                         Component: ManageUsers
                     },
                     {
-                        path: 'create-posts',
+                        path: '-admin-create-posts',
                         Component: AdminCreatePost
                     }
                 ]
             }
         ]
-    },
+    }
 ]);

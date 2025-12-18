@@ -29,6 +29,15 @@ const Navbar = () => {
                     <li onClick={() => handleNav("/all-posts")} className="text-primary cursor-pointer">All Posts</li>
                     <li className="text-primary cursor-pointer">About</li>
                     <li className="text-primary cursor-pointer">Pricing</li>
+                    {user && (
+                        <li
+                            onClick={() => handleNav("/user-dashboard")}
+                            className="text-primary cursor-pointer"
+                        >
+                            Dashboard
+                        </li>
+                    )}
+
                 </ul>
 
                 {/* Desktop Auth */}
@@ -73,7 +82,14 @@ const Navbar = () => {
                     </button>
                     <button className="text-left text-sm font-medium">About</button>
                     <button className="text-left text-sm font-medium">Pricing</button>
-
+                    {user && (
+                        <button
+                            onClick={() => handleNav("/user-dashboard")}
+                            className="text-left text-sm font-medium"
+                        >
+                            Dashboard
+                        </button>
+                    )}
                     <div className="pt-4">
                         {user ? (
                             <UserButton />

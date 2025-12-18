@@ -13,7 +13,7 @@ const AdminRoute = ({ children }) => {
   const role = user?.publicMetadata?.role;
 
   if (role !== "admin") {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/admin-dashboard" replace />;
   }
 
   return children;

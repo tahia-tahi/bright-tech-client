@@ -15,25 +15,25 @@ const PostDetails = () => {
 
   // Fetch post details
   useEffect(() => {
-const fetchPost = async () => {
-  try {
-    const token = await getToken({ template: "default" });
+    const fetchPost = async () => {
+      try {
+        const token = await getToken({ template: "default" });
 
-    const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+        const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-    const data = await res.json();
-    if (data.success) {
-      setPost(data.post);
-      setLiked(data.post.liked || false);
-    }
-  } catch (err) {
-    console.error(err);
-  }
-};
+        const data = await res.json();
+        if (data.success) {
+          setPost(data.post);
+          setLiked(data.post.liked || false);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
 
     const fetchComments = async () => {
@@ -149,7 +149,12 @@ const fetchPost = async () => {
         <div className="space-y-4">
           {comments.map((c) => (
             <div key={c._id} className="p-3 bg-gray-100 rounded">
-              <p>{c.user?.email || "Anonymous"}: {c.text}</p>
+              <p>
+                <span className="font-semibold">
+                  {c.user?.name || c.user?.email || "Anonymous"}
+                </span>
+                : {c.text}
+              </p>
             </div>
           ))}
         </div>

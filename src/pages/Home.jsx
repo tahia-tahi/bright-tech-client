@@ -1,14 +1,14 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
 import Banner from '../components/Banner'
 import AllPosts from './AllPosts'
+import Features from '../components/Features'
 
 export default function Home() {
   return (
     <div>
-        <Navbar/>
         <Banner/>
         <AllPosts/>
+        <Features/>
 
     </div>
   )
