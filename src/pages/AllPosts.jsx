@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { ThumbsUp, MessageCircle } from "lucide-react";
-import { Link } from "react-router";
 import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router";
 
