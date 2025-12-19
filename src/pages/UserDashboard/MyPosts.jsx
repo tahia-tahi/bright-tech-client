@@ -38,10 +38,10 @@ const MyPosts = () => {
         {posts.map(post => (
           <li
             key={post._id}
-            className="flex items-center justify-between border p-4 rounded-lg"
+            className="flex items-center justify-between border border-primary p-4 rounded-lg"
           >
             <div>
-              <p className="font-medium">{post.title}</p>
+              <p className="font-medium text-primary">{post.title}</p>
               <p className="text-xs text-gray-500">
                 {new Date(post.createdAt).toLocaleDateString()}
               </p>
@@ -49,7 +49,7 @@ const MyPosts = () => {
 
             <div className="flex gap-2">
               <Link
-                to={`/user-dashboard/edit-post/${post._id}`}
+                to={`/user-dashboard/update-post/${post._id}`}
                 className="px-3 py-1 text-xs rounded bg-blue-500 text-white"
               >
                 Edit

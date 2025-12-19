@@ -1,127 +1,188 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useAuth } from '@clerk/clerk-react';
+import React, { useState } from "react";
+import axios from "axios";
+import { useAuth } from "@clerk/clerk-react";
 
 const CreatePost = () => {
     const { getToken } = useAuth();
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
-    const [imageFile, setImageFile] = useState(null);
-    const [imageUrl, setImageUrl] = useState('');
+
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [tagsInput, setTagsInput] = useState("");
+    const [imageUrl, setImageUrl] = useState("");
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState("");
+    const [fileName, setFileName] = useState("No file chosen");
 
 
+    // ---------------- IMAGE UPLOAD ----------------
     const handleImageUpload = async (file) => {
         const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', 'frontend_upload'); // Replace with your preset
+        formData.append("file", file);
+        formData.append("upload_preset", "frontend_upload");
 
         try {
             const res = await axios.post(
-                'https://api.cloudinary.com/v1_1/dq14rwsmn/image/upload', // Replace with your cloud name
+                "https://api.cloudinary.com/v1_1/dq14rwsmn/image/upload",
                 formData
             );
             setImageUrl(res.data.secure_url);
         } catch (error) {
-            console.error('Image upload failed:', error);
-            setMessage('Image upload failed');
+            console.error(error);
+            setMessage("Image upload failed");
         }
     };
 
+    // ---------------- CREATE POST ----------------
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!title || !content) {
-            setMessage('Title and Content are required');
+            setMessage("Title and content are required");
             return;
         }
 
+        const tags = tagsInput
+            .split(",")
+            .map((tag) => tag.trim().toLowerCase())
+            .filter(Boolean);
+
         setLoading(true);
+
         try {
-            const token = await getToken({ template: "default" }); // ✅ Clerk JWT token
-            console.log('Token:', token);
+            const token = await getToken({ template: "default" });
 
             const res = await axios.post(
-                'http://localhost:3000/api/posts',
-                { title, content, image: imageUrl },
-                { headers: { Authorization: `Bearer ${token}` } }
+                "http://localhost:3000/api/posts",
+                {
+                    title,
+                    content,
+                    tags,
+                    image: imageUrl,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
             );
 
             if (res.data.success) {
-                setMessage('Post created successfully!');
-                setTitle('');
-                setContent('');
-                setImageFile(null);
-                setImageUrl('');
+                setMessage("Post created successfully!");
+                setTitle("");
+                setContent("");
+                setTagsInput("");
+                setImageUrl("");
             }
         } catch (error) {
             console.error(error);
-            setMessage('Failed to create post');
+            setMessage("Failed to create post");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
-            <h2 className="text-2xl text-primary font-bold mb-6">Create New Post</h2>
+        <div className="max-w-2xl mx-auto mt-10 bg-white p-6 rounded-xl shadow">
+            <h2 className="text-2xl font-semibold text-primary mb-6">
+                Create New Post
+            </h2>
 
             {message && (
-                <div className="mb-4 p-2 bg-blue-100 text-blue-700 rounded">{message}</div>
+                <div className="mb-4 p-2 rounded bg-blue-100 text-primary">
+                    {message}
+                </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Title */}
                 <div>
-                    <label className="block mb-1 font-medium text-primary">Title</label>
+                    <label className="block mb-1 text-primary font-medium">
+                        Title
+                    </label>
                     <input
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="w-full border border-gray-300 rounded text-gray-900 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
+                        className="w-full border rounded px-4 py-2 text-primary focus:ring-2 focus:ring-primary"
                         placeholder="Enter post title"
                     />
                 </div>
 
+                {/* Content */}
                 <div>
-                    <label className="block mb-1 font-medium text-primary">Content</label>
+                    <label className="block mb-1 text-primary font-medium">
+                        Content
+                    </label>
                     <textarea
+                        rows={5}
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
-                        className="w-full border border-gray-300 text-gray-900 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
-                        rows={5}
-                        placeholder="Enter post content"
+                        className="w-full border rounded px-4 py-2 text-primary focus:ring-2 focus:ring-primary"
+                        placeholder="Write your post content"
                     />
-
                 </div>
 
+                {/* Tags */}
                 <div>
-                    <label className="block mb-1 font-medium text-primary">Image</label>
+                    <label className="block mb-1 text-primary font-medium">
+                        Tags
+                    </label>
                     <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                            setImageFile(e.target.files[0]);
-                            handleImageUpload(e.target.files[0]);
-                        }}
-                        className="w-full"
+                        type="text"
+                        value={tagsInput}
+                        onChange={(e) => setTagsInput(e.target.value)}
+                        className="w-full border rounded px-4 py-2 text-primary focus:ring-2 focus:ring-primary"
+                        placeholder="react, mern, authentication"
                     />
                 </div>
 
-                {imageUrl && (
-                    <div className="mt-2">
-                        <img src={imageUrl} alt="preview" className="w-32 h-32 object-cover rounded" />
-                    </div>
-                )}
+                {/* Image */}
+                <div>
+                    <label className="block mb-1 text-primary font-medium">
+                        Image
+                    </label>
 
+                    <div className="flex items-center gap-4">
+                        {/* Hidden input */}
+                        <input
+                            type="file"
+                            id="imageUpload"
+                            accept="image/*"
+                            onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (file) {
+                                    setFileName(file.name);
+                                    handleImageUpload(file);
+                                }
+                            }}
+                            className="hidden"
+                        />
+
+                        {/* Custom button */}
+                        <label
+                            htmlFor="imageUpload"
+                            className="px-4 py-2 bg-primary text-white rounded cursor-pointer hover:opacity-90"
+                        >
+                            Choose Image
+                        </label>
+
+                        {/* File name */}
+                        <span className="text-primary text-sm">
+                            {fileName}
+                        </span>
+                    </div>
+                </div>
+
+
+                {/* Submit */}
                 <button
                     type="submit"
-                    disabled={loading || !imageUrl}
-                    className="w-full bg-blue-600 text-white font-medium py-2 rounded hover:bg-blue-700 transition"
+                    disabled={loading}
+                    className="w-full bg-primary text-white py-2 rounded hover:opacity-90 transition"
                 >
-                    {loading ? 'Creating...' : 'Create Post'}
+                    {loading ? "Creating..." : "Create Post"}
                 </button>
             </form>
-
         </div>
     );
 };
