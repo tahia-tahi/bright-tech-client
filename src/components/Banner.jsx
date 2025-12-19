@@ -1,20 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
 import user_group from '../assets/user_group.png'
+import bannerBg from '../assets/banner-bg.png'
 
 const Banner = () => {
     const navigate = useNavigate()
     return (
         <div
-            style={{ backgroundImage: `url(${"/src/assets/banner-bg.png"})` }}
-            className="
-    px-4 sm:px-20 xl:px-32 
-    min-h-screen bg-cover bg-center bg-no-repeat
-    flex flex-col justify-center
-  "
-        >
-
-
+            style={{ backgroundImage: `url(${bannerBg})` }}
+            className="px-4 sm:px-20 xl:px-32 min-h-screen bg-cover bg-center bg-no-repeat flex flex-col justify-center">
             <div className='text-center mb-6'>
                 <h1 className='text-3xl sm:text-5xl md:6xl 2xl:text-7xl font-semibold mx-auto leading-[1.2]'>Read Peoples' Thought <br></br> with <span className=' text-primary'> Blog Sphere</span></h1>
                 <p className='mt-4 max-w-xs sm:max-w-lg 2xl:max-w-xl m-auto max-sm:text-xs text-white'>Transform your tech learnings with our platform. Write blog posts, learn and enhance your knowledge.</p>
