@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ArrowRight, User } from "lucide-react";
-import Logo from "../shared/logo";
+import Logo from "../shared/Logo"
 import { useUser, useAuth } from "@clerk/clerk-react";
 import { useNavigate } from "react-router";
 

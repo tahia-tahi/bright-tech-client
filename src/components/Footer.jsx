@@ -1,5 +1,5 @@
 import { Facebook, Twitter, Github, Linkedin } from "lucide-react";
-import Logo from "../shared/logo";
+import Logo from "../shared/Logo"
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-300">
