@@ -1,5 +1,6 @@
 import { Outlet } from "react-router";
 import Sidebar from "../pages/UserDashboard/Sidebar";
+import DashboardOverview from "../components/DashboardOverview";
 
 const User = () => {
   return (
@@ -9,6 +10,7 @@ const User = () => {
 
       {/* Main content */}
       <main className="flex-1 p-6 bg-gray-50">
+        <DashboardOverview/>
         <Outlet />
       </main>
     </div>
