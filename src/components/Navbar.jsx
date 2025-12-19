@@ -19,7 +19,7 @@ const Navbar = () => {
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-white shadow-[0px_4px_25px_0px_#0000000D]">
-      <div className="h-[70px] px-4 md:px-10 lg:px-20 flex items-center justify-between">
+      <div className="h-[70px] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:px-10 flex items-center justify-between">
         {/* Logo */}
         <div onClick={() => handleNav("/")} className="cursor-pointer">
           <Logo />

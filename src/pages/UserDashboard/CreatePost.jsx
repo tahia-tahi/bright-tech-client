@@ -82,7 +82,7 @@ const CreatePost = () => {
     };
 
     return (
-        <div className="max-w-2xl mx-auto mt-10 bg-white p-6 rounded-xl shadow">
+        <div className="w-full mx-auto mt-10 bg-white p-6 rounded-xl shadow">
             <h2 className="text-2xl font-semibold text-primary mb-6">
                 Create New Post
             </h2>

@@ -4,7 +4,7 @@ const MyProfile = () => {
   const { user } = useUser();
 
   return (
-    <div className="max-w-xl bg-white p-6 rounded-xl shadow">
+    <div className="w-full bg-white p-6 rounded-xl shadow mt-6">
       <h2 className="text-xl font-semibold mb-4 text-primary">My Profile</h2>
 
       <div className="space-y-2 text-sm text-primary">

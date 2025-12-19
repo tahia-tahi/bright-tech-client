@@ -64,11 +64,15 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/posts/:id',
-                Component: PostDetails
+                element: <ProtectedRoute>
+                   <PostDetails></PostDetails>
+                </ProtectedRoute>
             },
             {
                 path: '/user-dashboard',
-                element: <User></User>,
+                element: <ProtectedRoute>
+                    <User></User>
+                </ProtectedRoute>,
                 children: [
                     {
                         path: 'create-post',
@@ -90,7 +94,9 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/admin-dashboard',
-                Component: Admin,
+                element: <ProtectedRoute>
+                    <Admin></Admin>
+                </ProtectedRoute>,
                 children: [
                     {
                         path: 'admin-profile',

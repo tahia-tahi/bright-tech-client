@@ -7,7 +7,7 @@ const Sidebar = () => {
      ${isActive ? "bg-primary text-white" : "hover:bg-gray-100 text-gray-700"}`;
 
   return (
-    <aside className="w-64 min-h-screen border-r bg-white p-4">
+    <aside className="w-64 min-h-screen  border-r bg-white p-4">
       <h2 className="text-lg text-primary font-semibold mb-6 flex items-center gap-2">
         <LayoutDashboard size={20} />
         Dashboard

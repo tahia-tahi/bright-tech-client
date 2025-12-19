@@ -31,7 +31,7 @@ const MyPosts = () => {
     return <p className="text-gray-500">You haven’t created any posts yet.</p>;
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow">
+    <div className="bg-white p-6 rounded-xl shadow mt-6">
       <h2 className="text-xl font-semibold mb-4 text-primary">My Posts</h2>
 
       <ul className="space-y-4">
