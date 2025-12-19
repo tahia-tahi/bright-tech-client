@@ -45,7 +45,8 @@ src/
 
 ## ⚙️ Environment Variables
 Create a `.env` file in the root directory:
-Never commit .env files to GitHub.
+VITE_API_URL
+VITE_CLERK_PUBLISHABLE_KEY
 
 🛠️ Installation & Setup
 git clone https://github.com/your-username/bright-tech-client.git
