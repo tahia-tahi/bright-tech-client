@@ -22,7 +22,7 @@ const UpdatePost = () => {
     const fetchPost = async () => {
       try {
         const token = await getToken();
-        const res = await fetch(`http://localhost:3000/api/posts/${postId}`, {
+        const res = await fetch(``${import.meta.env.VITE_API_URL}/api/posts`/${postId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -70,7 +70,7 @@ const UpdatePost = () => {
       formData.append("tags", tags.join(","));
       if (image) formData.append("image", image);
 
-      const res = await fetch(`http://localhost:3000/api/posts/${postId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/posts/${postId}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,

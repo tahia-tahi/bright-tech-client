@@ -11,7 +11,7 @@ const MyPosts = () => {
   useEffect(() => {
     const fetchMyPosts = async () => {
       const token = await getToken();
-      const res = await fetch("http://localhost:3000/api/posts/my-posts", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/posts/my-posts`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

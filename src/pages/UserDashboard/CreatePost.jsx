@@ -52,7 +52,7 @@ const CreatePost = () => {
             const token = await getToken({ template: "default" });
 
             const res = await axios.post(
-                "http://localhost:3000/api/posts",
+                (`${import.meta.env.VITE_API_URL}/api/posts`),
                 {
                     title,
                     content,

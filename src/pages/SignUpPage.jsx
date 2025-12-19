@@ -46,7 +46,7 @@ const SignUpPage = () => {
       // 3️⃣ Sync user with backend
       const token = await getToken({ template: "default" });
 
-      await fetch("http://localhost:3000/api/users/sync", {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/posts/users/sync`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

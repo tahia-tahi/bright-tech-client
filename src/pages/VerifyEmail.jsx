@@ -22,7 +22,7 @@ const VerifyEmail = () => {
 
         // ✅ Sync user to backend
         const token = await getToken({ template: "default" });
-        await fetch("http://localhost:3000/api/posts/user/sync", {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/posts/user/sync`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

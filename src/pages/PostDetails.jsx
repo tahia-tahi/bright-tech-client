@@ -15,7 +15,7 @@ const PostDetails = () => {
     const fetchPost = async () => {
       try {
         const token = await getToken({ template: "default" });
-        const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/posts/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -30,7 +30,7 @@ const PostDetails = () => {
 
     const fetchComments = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/posts/comments/${id}`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/posts/comments/${id}`);
         const data = await res.json();
         if (data.success) setComments(data.comments);
       } catch (err) {
@@ -45,7 +45,7 @@ const PostDetails = () => {
   const handleLike = async () => {
     if (!isSignedIn) return alert("Login required");
     const token = await getToken({ template: "default" });
-    const res = await fetch(`http://localhost:3000/api/posts/like/${id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/posts/like/${id}`, {
       method: "PATCH",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -61,7 +61,7 @@ const PostDetails = () => {
     if (!newComment.trim()) return;
     try {
       const token = await getToken({ template: "default" });
-      const res = await fetch(`http://localhost:3000/api/posts/comment/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/posts/comment/${id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ text: newComment }),
